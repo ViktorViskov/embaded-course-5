@@ -1,3 +1,3 @@
 all:
-	gcc temp.c -o temp -li2c
-	./temp
+	gcc temp.c -o app -li2c
+	./app
