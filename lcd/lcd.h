@@ -28,34 +28,30 @@
 #define LCD_REG         0x40
 
 
-static int _init_lcd_file(char *bus, unsigned int address) {
-    int file;
-
-    file = open(bus, O_RDWR);
-    if (file < 0) { // If error
+static int _get_lcd_device(char *bus, unsigned int address) {
+    int device = open(bus, O_RDWR);
+    if (device < 0) { // If error
         fprintf(stderr, "ERROR: opening %s - %s\n", bus, strerror(errno));
         exit(1);
     }
 
-    if (ioctl(file, I2C_SLAVE, address) == -1 ) { // If error
+    if (ioctl(device, I2C_SLAVE, address) == -1 ) { // If error
             fprintf(stderr, "ERROR: setting  address %d on i2c bus %s with ioctl() - %s", address, bus, strerror(errno) );
             exit(1);
     }
-    return(file);
+    return(device);
 }
 
-static void _init_lcd_device(int file) {
+static void _prepare_lcd_device(int file) {
     i2c_smbus_write_byte_data(file, CONFIG_REG, TWO_LINE_MODE);
     i2c_smbus_write_byte_data(file, CONFIG_REG, CURSOR_MODE);
 }
 
 // init screen file and device
-int init_lcd(char *bus, unsigned int address) {
-    int file;
-
-    file = _init_lcd_file(bus, address);
-    _init_lcd_device(file);
-    return(file);
+int init_lcd_device(char *bus, unsigned int address) {
+    int device = _get_lcd_device(bus, address);
+    _prepare_lcd_device(device);
+    return(device);
 }
 
 void clear_lcd(int device) {

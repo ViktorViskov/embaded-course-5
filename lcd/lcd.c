@@ -23,14 +23,14 @@ void _float_to_string(float f, char *buf) {
 
 int main( void ) {
     char buf[16];
-    int lcd_device = init_lcd(LCD_BUS, LCD_ADR);
-    float temp = 25.;
+    int lcd_device = init_lcd_device(LCD_BUS, LCD_ADR);
+    float temp = 12.34;
     _float_to_string(temp, buf);
 
     clear_lcd(lcd_device);
 
     display_string_first_line(lcd_device, buf);
-    display_string_second_line(lcd_device, "Hello Wlfdsd");
+    display_string_second_line(lcd_device, "Hello world");
 
     return(0);
 }
