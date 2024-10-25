@@ -14,7 +14,7 @@
 #define LCD_BUS        "/dev/i2c-2"
 #define LCD_ADR         0x3e
 
-// LCD commands
+// LCD registers
 #define TWO_LINE_MODE   0x28
 #define CURSOR_MODE     0x0D
 #define CLEAR           0x01
