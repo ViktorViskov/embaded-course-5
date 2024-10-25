@@ -13,19 +13,15 @@
 // include lcd driver
 #include "lcd.h"
 
-// float to string
-void _float_to_string(float f, char *buf) {
-    int a = f;
-    int b = (f - a) * 100;
-    sprintf(buf, "%d.%d", a, b);
-}
+// include utils
+#include "../utils/converting.h"
 
 
 int main( void ) {
     char buf[16];
     int lcd_device = init_lcd_device(LCD_BUS, LCD_ADR);
-    float temp = 12.34;
-    _float_to_string(temp, buf);
+    float temp = -12.34;
+    float_to_string(temp, buf);
 
     clear_lcd(lcd_device);
 
