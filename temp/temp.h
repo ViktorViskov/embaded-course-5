@@ -10,7 +10,12 @@
 #include <i2c/smbus.h>
 #include <byteswap.h>
 
-#define CONFIG_REG      0x01
+// device info
+#define TEMP_BUS        "/dev/i2c-2"
+#define TEMP_ADR        0x18
+
+// MCP9808 registers
+#define TEMP_CONFIG_REG 0x01
 #define TUPPER_REG      0x02
 #define TLOWER_REG      0x03
 #define TCRIT_REG       0x04

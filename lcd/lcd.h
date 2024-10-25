@@ -24,7 +24,7 @@
 #define LINE_TWO        0xC0
 
 // LCD memory addresses
-#define CONFIG_REG      0x00
+#define LCD_CONFIG_REG  0x00
 #define LCD_REG         0x40
 
 
@@ -43,8 +43,8 @@ static int _get_lcd_device(char *bus, unsigned int address) {
 }
 
 static void _prepare_lcd_device(int file) {
-    i2c_smbus_write_byte_data(file, CONFIG_REG, TWO_LINE_MODE);
-    i2c_smbus_write_byte_data(file, CONFIG_REG, CURSOR_MODE);
+    i2c_smbus_write_byte_data(file, LCD_CONFIG_REG, TWO_LINE_MODE);
+    i2c_smbus_write_byte_data(file, LCD_CONFIG_REG, CURSOR_MODE);
 }
 
 // init screen file and device
@@ -55,15 +55,15 @@ int init_lcd_device(char *bus, unsigned int address) {
 }
 
 void clear_lcd(int device) {
-    i2c_smbus_write_byte_data(device, CONFIG_REG, 0x01);
-    i2c_smbus_write_byte_data(device, CONFIG_REG, 0x06);
-    i2c_smbus_write_byte_data(device, CONFIG_REG, 0x02);
+    i2c_smbus_write_byte_data(device, LCD_CONFIG_REG, 0x01);
+    i2c_smbus_write_byte_data(device, LCD_CONFIG_REG, 0x06);
+    i2c_smbus_write_byte_data(device, LCD_CONFIG_REG, 0x02);
 }
 
 void display_string_first_line(int device, char *str) {
     int reg32;
 
-    i2c_smbus_write_byte_data(device, CONFIG_REG, LINE_ONE);
+    i2c_smbus_write_byte_data(device, LCD_CONFIG_REG, LINE_ONE);
     while(*str != 0) {
         reg32 = i2c_smbus_write_byte_data(device, LCD_REG, *str);
         str++;
@@ -77,7 +77,7 @@ void display_string_first_line(int device, char *str) {
 void display_string_second_line(int device, char *str) {
     int reg32;
 
-    i2c_smbus_write_byte_data(device, CONFIG_REG, LINE_TWO);
+    i2c_smbus_write_byte_data(device, LCD_CONFIG_REG, LINE_TWO);
     while(*str != 0) {
         reg32 = i2c_smbus_write_byte_data(device, LCD_REG, *str);
         str++;
