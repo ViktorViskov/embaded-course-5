@@ -11,14 +11,14 @@
 #include <byteswap.h>
 
 // include temp driver
-#include "temp.h"
+#include "../src/temp.h"
 
 // include utils
 #include "../utils/terminal.h"
 
 int main( void ) {
     char buf[20];
-    int temp_device = init_temp_device(TEMP_BUS, TEMP_ADR);
+    int temp_device = init_temp_device();
 
     // loop for show temp
     while (1) {

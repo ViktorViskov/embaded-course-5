@@ -17,15 +17,15 @@
 // RGB values init
 char red, green, blue = 0;
 
-static int init_rgb_device(char *bus, unsigned int address) {
-    int device = open(bus, O_RDWR);
+static int init_rgb_device() {
+    int device = open(RGB_BUS, O_RDWR);
     if (device < 0) { // If error
-        fprintf(stderr, "ERROR: opening %s - %s\n", bus, strerror(errno));
+        fprintf(stderr, "ERROR: opening %s - %s\n", RGB_BUS, strerror(errno));
         exit(1);
     }
 
-    if (ioctl(device, I2C_SLAVE, address) == -1 ) { // If error
-            fprintf(stderr, "ERROR: setting  address %d on i2c bus %s with ioctl() - %s", address, bus, strerror(errno) );
+    if (ioctl(device, I2C_SLAVE, RGB_ADR) == -1 ) { // If error
+            fprintf(stderr, "ERROR: setting  address %d on i2c bus %s with ioctl() - %s", RGB_ADR, RGB_BUS, strerror(errno) );
             exit(1);
     }
     return(device);

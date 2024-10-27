@@ -48,8 +48,8 @@ static void _prepare_lcd_device(int file) {
 }
 
 // init screen file and device
-int init_lcd_device(char *bus, unsigned int address) {
-    int device = _get_lcd_device(bus, address);
+int init_lcd_device() {
+    int device = _get_lcd_device(LCD_BUS, LCD_ADR);
     _prepare_lcd_device(device);
     return(device);
 }

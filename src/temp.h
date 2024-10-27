@@ -71,17 +71,17 @@ float _get_celc(struct MCP9808_tareg *temp_data) {
     return temp;
 }
 
-int init_temp_device(char *bus, unsigned int address) {
+int init_temp_device() {
     int file;
 
-    file = open(bus, O_RDWR);
+    file = open(TEMP_BUS, O_RDWR);
     if (file < 0) { // If error
-        fprintf(stderr, "ERROR: opening %s - %s\n", bus, strerror(errno));
+        fprintf(stderr, "ERROR: opening %s - %s\n", TEMP_BUS, strerror(errno));
         exit(1);
     }
 
-    if (ioctl(file, I2C_SLAVE, address) == -1 ) { // If error
-            fprintf(stderr, "ERROR: setting  address %d on i2c bus %s with ioctl() - %s", address, bus, strerror(errno) );
+    if (ioctl(file, I2C_SLAVE, TEMP_ADR) == -1 ) { // If error
+            fprintf(stderr, "ERROR: setting  address %d on i2c bus %s with ioctl() - %s", TEMP_ADR, TEMP_BUS, strerror(errno) );
             exit(1);
     }
     return(file);

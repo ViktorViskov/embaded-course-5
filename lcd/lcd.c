@@ -11,7 +11,7 @@
 #include <byteswap.h>
 
 // include lcd driver
-#include "lcd.h"
+#include "../src/lcd.h"
 
 // include utils
 #include "../utils/converting.h"
@@ -19,7 +19,7 @@
 
 int main( void ) {
     char buf[16];
-    int lcd_device = init_lcd_device(LCD_BUS, LCD_ADR);
+    int lcd_device = init_lcd_device();
     float temp = -12.34;
     float_to_string(temp, buf);
 

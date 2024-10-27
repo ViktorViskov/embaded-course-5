@@ -1,9 +1,9 @@
 #include <stdio.h>
 
 // include drivers
-#include "../lcd/lcd.h"
-#include "../temp/temp.h"
-#include "../lcd/rbg.h"
+#include "../src/lcd.h"
+#include "../src/temp.h"
+#include "../src/rbg.h"
 
 // include utils
 #include "../utils/converting.h"
@@ -11,9 +11,9 @@
 
 int main( void ) {
     char buf[16];
-    int lcd_device = init_lcd_device(LCD_BUS, LCD_ADR);
-    int rgb_device = init_rgb_device(RGB_BUS, RGB_ADR);
-    int temp_device = init_temp_device(TEMP_BUS, TEMP_ADR);
+    int lcd_device = init_lcd_device();
+    int rgb_device = init_rgb_device();
+    int temp_device = init_temp_device();
 
     clear_lcd(lcd_device);
     enable_rgb(rgb_device);
