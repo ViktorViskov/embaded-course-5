@@ -4,13 +4,16 @@
 #include "../src/lcd.h"
 #include "../src/temp.h"
 #include "../src/rbg.h"
+#include "../utils/time.h"
 
 // include utils
 #include "../utils/converting.h"
 
 
 int main( void ) {
-    char buf[16];
+    char buf_temp[16];
+    char buf_time[20];
+
     int lcd_device = init_lcd_device();
     int rgb_device = init_rgb_device();
     int temp_device = init_temp_device();
@@ -21,14 +24,15 @@ int main( void ) {
 
     // loop for show temp
     while (1) {
+        get_time_string(buf_time);
 
         // read temp from sensor
         float temp_celc = get_temp(temp_device);
 
         // show on screen an sleep
-        float_to_string(temp_celc, buf);
-        display_string_first_line(lcd_device, buf);
-        display_string_second_line(lcd_device, "Hello World");
+        float_to_string(temp_celc, buf_temp);
+        display_string_first_line(lcd_device, buf_time);
+        display_string_second_line(lcd_device, buf_temp);
 
         // set red led if temp > 30
         if (temp_celc >= 30.0 ){
