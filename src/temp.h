@@ -33,6 +33,7 @@ struct MCP9808_tareg {
     unsigned t_crit : 1;
 };
 
+int device = 0;
 int32_t reg32;
 uint16_t * const reg16poi = (uint16_t *) &reg32;
 struct MCP9808_tareg temp_data;
@@ -71,7 +72,7 @@ float _get_celc(struct MCP9808_tareg *temp_data) {
     return temp;
 }
 
-int init_temp_device() {
+int _init_temp_device() {
     int file;
 
     file = open(TEMP_BUS, O_RDWR);
@@ -87,7 +88,11 @@ int init_temp_device() {
     return(file);
 }
 
-float get_temp(int device) {
+float get_temp() {
+    if (!device) {
+        device = _init_temp_device();
+    }
+
     int16_t raw_data = _read_from_sensor(device, TA_REG);
     _get_temp_bytes(raw_data, &temp_data);
     return _get_celc(&temp_data);

@@ -18,13 +18,12 @@
 
 int main( void ) {
     char buf[20];
-    int temp_device = init_temp_device();
 
     // loop for show temp
     while (1) {
 
         // read temp from sensor
-        float temp_celc = get_temp(temp_device);
+        float temp_celc = get_temp();
 
         // show on screen an sleep
         show_temp_inline(temp_celc);
