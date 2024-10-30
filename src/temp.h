@@ -33,14 +33,14 @@ struct MCP9808_tareg {
     unsigned t_crit : 1;
 };
 
-int device = 0;
+int temp_device = 0;
 int32_t reg32;
 uint16_t * const reg16poi = (uint16_t *) &reg32;
 struct MCP9808_tareg temp_data;
 
 
-int16_t _read_from_sensor(int device, int reg) {
-    reg32 = i2c_smbus_read_word_data(device, TA_REG);
+int16_t _read_from_sensor() {
+    reg32 = i2c_smbus_read_word_data(temp_device, TA_REG);
     return bswap_16(reg16poi[0]);
 }
 
@@ -72,28 +72,27 @@ float _get_celc(struct MCP9808_tareg *temp_data) {
     return temp;
 }
 
-int _init_temp_device() {
-    int file;
+static void _init_temp_device() {
+    if (temp_device > 0) {
+        return;
+    }
 
-    file = open(TEMP_BUS, O_RDWR);
-    if (file < 0) { // If error
+    temp_device = open(TEMP_BUS, O_RDWR);
+    if (temp_device < 0) { // If error
         fprintf(stderr, "ERROR: opening %s - %s\n", TEMP_BUS, strerror(errno));
         exit(1);
     }
 
-    if (ioctl(file, I2C_SLAVE, TEMP_ADR) == -1 ) { // If error
+    if (ioctl(temp_device, I2C_SLAVE, TEMP_ADR) == -1 ) { // If error
             fprintf(stderr, "ERROR: setting  address %d on i2c bus %s with ioctl() - %s", TEMP_ADR, TEMP_BUS, strerror(errno) );
             exit(1);
     }
-    return(file);
 }
 
 float get_temp() {
-    if (!device) {
-        device = _init_temp_device();
-    }
+    _init_temp_device();
 
-    int16_t raw_data = _read_from_sensor(device, TA_REG);
+    int16_t raw_data = _read_from_sensor();
     _get_temp_bytes(raw_data, &temp_data);
     return _get_celc(&temp_data);
 }

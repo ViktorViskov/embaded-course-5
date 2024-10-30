@@ -19,14 +19,13 @@
 
 int main( void ) {
     char buf[16];
-    int lcd_device = init_lcd_device();
     float temp = -12.34;
     float_to_string(temp, buf);
 
-    clear_lcd(lcd_device);
+    clear_lcd();
 
-    display_string_first_line(lcd_device, buf);
-    display_string_second_line(lcd_device, "Hello world");
+    display_string_first_line(buf);
+    display_string_second_line("Hello world");
 
     return(0);
 }
