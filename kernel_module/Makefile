@@ -1,5 +1,4 @@
-obj-m += char_device.o
-# obj-m += block_device.o
+obj-m += mcp9808.o
 
 all:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
