@@ -4,6 +4,8 @@
 #include <linux/device.h>
 #include <linux/uaccess.h>
 
+#include "temp.h"
+
 #define DEVICE_NAME "char_device"
 #define CLASS_NAME "custom_devices"
 #define HELLO_STRING "Char device\n"
@@ -17,12 +19,15 @@ static int device_open(struct inode *inode, struct file *file) { return 0; }
 static int device_release(struct inode *inode, struct file *file) { return 0; }
 
 static ssize_t device_read(struct file *file, char __user *buffer, size_t len, loff_t *offset) {
-    size_t string_len = strlen(HELLO_STRING);
+    int temp = get_temp();
+
+    char temp_string[16];
+    size_t string_len = snprintf(temp_string, sizeof(temp_string), "%d\n", temp);
 
     if (*offset >= string_len) return 0;
     if (len > string_len - *offset) len = string_len - *offset;
 
-    if (copy_to_user(buffer, HELLO_STRING + *offset, len)) return -EFAULT;
+    if (copy_to_user(buffer, temp_string + *offset, len)) return -EFAULT;
 
     *offset += len;
     return len;
